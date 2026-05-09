@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HoneyTrace</title>
+
+  <link rel="stylesheet" href="style.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+</head>
+<body>
+
+<div class="shell">
+
+  <header class="topbar">
+    <h1>🍯 HoneyTrace</h1>
+    <p>Trusted Honey Marketplace</p>
+  </header>
+
+  <!-- LOGIN -->
+  <section class="card">
+    <h2>Login</h2>
+
+    <input id="reg-phone" type="text" placeholder="Phone Number" />
+
+    <button onclick="doLogin()">
+      Send OTP
+    </button>
+
+    <input id="otp" type="text" placeholder="Enter OTP" />
+
+    <button onclick="verifyOtp()">
+      Verify OTP
+    </button>
+  </section>
+
+  <!-- REGISTRATION -->
+  <section class="card" id="reg-form-view">
+    <h2>Beekeeper Registration</h2>
+
+    <input id="reg-name" placeholder="Full Name" />
+    <input id="reg-email" placeholder="Email" />
+    <input id="reg-state" placeholder="State" />
+    <input id="reg-lga" placeholder="LGA" />
+    <input id="reg-village" placeholder="Village" />
+
+    <button onclick="submitRegistration()">
+      Complete Registration
+    </button>
+  </section>
+
+  <!-- SUCCESS -->
+  <section class="card hidden" id="reg-success-view">
+    <h2>✅ Registration Successful</h2>
+  </section>
+
+  <!-- CREATE BATCH -->
+  <section class="card">
+    <h2>Create Honey Batch</h2>
+
+    <input id="batch-image" type="file" />
+
+    <button onclick="createBatch()">
+      Upload Batch
+    </button>
+  </section>
+
+  <!-- MARKETPLACE -->
+  <section class="card">
+    <h2>Marketplace</h2>
+
+    <div id="listings-wrap"></div>
+  </section>
+
+  <!-- ADMIN -->
+  <section class="card hidden" id="admin-dashboard">
+    <h2>Admin Dashboard</h2>
+
+    <div>
+      <h3>Orders</h3>
+      <div id="admin-orders"></div>
+    </div>
+
+    <div>
+      <h3>Batches</h3>
+      <div id="admin-batches"></div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ORDER MODAL -->
+<div id="order-modal" class="modal hidden">
+
+  <div class="modal-content">
+
+    <h3 id="order-title">Order Honey</h3>
+
+    <input id="order-qty" type="number" placeholder="Quantity (kg)" />
+
+    <div class="modal-actions">
+      <button onclick="submitOrder()">Confirm</button>
+      <button onclick="closeOrderModal()">Cancel</button>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- BATCH MODAL -->
+<div id="batch-modal" class="modal hidden">
+
+  <div class="modal-content">
+
+    <div id="batch-details"></div>
+
+    <canvas id="qr-code"></canvas>
+
+    <button onclick="closeBatchModal()">
+      Close
+    </button>
+
+  </div>
+
+</div>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
