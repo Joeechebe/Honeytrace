@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Verify Honey Batch</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    body{
+      font-family: Arial, sans-serif;
+      background:#f7f4ee;
+      padding:40px;
+      color:#222;
+    }
+
+    .card{
+      max-width:500px;
+      margin:auto;
+      background:white;
+      padding:30px;
+      border-radius:16px;
+      box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    h1{
+      margin-bottom:20px;
+    }
+
+    .verified{
+      color:green;
+      font-weight:bold;
+    }
+
+    .invalid{
+      color:red;
+      font-weight:bold;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+
+  <h1>🍯 HoneyTrace Verification</h1>
+
+  <div id="result">
+    Checking batch...
+  </div>
+
+</div>
+
+<script src="config.js"></script>
+
+<script>
+
+async function verifyBatch(){
+
+  const params =
+    new URLSearchParams(window.location.search);
+
+  const batchCode = params.get("batch");
+
+  const { data, error } =
+    await supabase
+      .from("batches")
+      .select("*")
+      .eq("batch_code", batchCode)
+      .single();
+
+  const result =
+    document.getElementById("result");
+
+  if(error || !data){
+
+    result.innerHTML = `
+      <p class="invalid">
+        ❌ Invalid Honey Batch
+      </p>
+    `;
+
+    return;
+  }
+
+  result.innerHTML = `
+    <p class="verified">
+      ✅ Verified Honey Batch
+    </p>
+
+    <br>
+
+    <p>
+      <strong>Batch Code:</strong>
+      ${data.batch_code}
+    </p>
+
+    <p>
+      <strong>Honey Type:</strong>
+      ${data.honey_type}
+    </p>
+
+    <p>
+      <strong>Harvest Date:</strong>
+      ${data.harvest_date}
+    </p>
+
+    <p>
+      <strong>Status:</strong>
+      ${data.verified ? "Verified" : "Pending"}
+    </p>
+  `;
+}
+
+verifyBatch();
+
+</script>
+
+</body>
+</html>
